@@ -24,5 +24,7 @@ pnpm-debug.log*
 
 #Virtual Environments
 *.dev
-*videos
+*videos/
 *.my*
+
+*__py*
