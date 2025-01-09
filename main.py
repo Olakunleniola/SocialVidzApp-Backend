@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Query
 from pydantic  import BaseModel, HttpUrl, Field
 from fastapi.responses import StreamingResponse
 from datetime import datetime
-from services.video_services import get_video_info, stream_response
+from services.video_services import get_video_info, stream_response, get_video_size
 from utils.validation import validate_platform, validate_url
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
@@ -47,11 +47,12 @@ async def download_video_endpoint(request:VideoRequest):
         validate_platform(request.platform)
         if not url:
             raise HTTPException(status_code=400, detail="URL is required.")
-        
+        file_size = await get_video_size(url)
         # Use StreamingResponse with the async generator that yields data
         headers = {
             "Content-Disposition": "attachment; filename=video.mp4",
             "Content-Type": "video/mp4",
+            "Content-Length": str(file_size)
         }
         return StreamingResponse(stream_response(url), headers=headers)
 
