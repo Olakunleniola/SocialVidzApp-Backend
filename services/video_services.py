@@ -4,23 +4,34 @@ from io import BytesIO
 import httpx
 from fastapi import HTTPException
 
+async def get_video_size(url: str):
+    """ Fetch video size from URL (HTTP HEAD request) """
+    async with httpx.AsyncClient() as client:
+        response = await client.head(url)
+        return int(response.headers.get('Content-Length', 0))
+
 async def get_video_info(url):
     try:
         ydl_opts = {'quiet': True}
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
+            url = info.get("url")
+            content_length = await get_video_size(url)
+            if not content_length:
+                raise HTTPException(status_code=400, detail=" Invalid Url.. Copy the URL again and try again ")
+
             return {
                 'title': info.get('title', 'Unknown'),
-                'url': info.get('url'),
+                'url': url,
                 'platform': info.get('extractor', 'Unknown'),
                 'duration': info.get('duration', 'Unknown'),
                 'uploader': info.get('uploader', 'Unknown'),
+                'size': int(content_length) if content_length else 'Unknown'
             }
     except DownloadError as e:
-        raise DownloadError(f"Could not download the video. The platform may not be supported:. \n Error:{str(e)}")
+        raise DownloadError("The platform may not be supported or the URL may be invalid. Please re-check the URL and try again.")
     except ExtractorError as e:
-        raise ExtractorError(f"Failed to extract video information. Check the URL and try again: \n Error: {str(e)}")
-
+        raise ExtractorError(f"Failed to extract video information. Check the URL and try again:")
 
 async def fetch_video_stream(url):
     ydl_opts = {
@@ -36,14 +47,13 @@ async def fetch_video_stream(url):
         filename = f"{info.get('title', 'video')}.mp4"
     return buffer, filename
 
-headers = {
-    "Connection": "keep-alive",
-    "Accept-Encoding": "gzip, deflate, br",
-    "User-Agent": "PostmanRuntime/7.43.0",
-    "Cache-Control": "no-cache",
-}
-
 async def stream_response(url: str):
+    headers = {
+        "Connection": "keep-alive",
+        "Accept-Encoding": "gzip, deflate, br",
+        "User-Agent": "PostmanRuntime/7.43.0",
+        "Cache-Control": "no-cache",
+    }
     async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
         # Stream the response from the external server
         async with client.stream("GET", url, headers=headers) as response:
