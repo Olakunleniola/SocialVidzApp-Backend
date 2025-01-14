@@ -24,7 +24,13 @@ pnpm-debug.log*
 
 #Virtual Environments
 *.dev
-*videos/
 *.my*
 
 *__py*
+
+# Media folders / log files
+videos/
+*.log
+
+# Databebase files
+*.db
