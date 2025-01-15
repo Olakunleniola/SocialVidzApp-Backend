@@ -16,8 +16,8 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Log message format
     handlers=[
         logging.StreamHandler(), # Logs to the console
-        logging.FileHandler('socialvidz.log')
-    ]
+        logging.FileHandler('socialvidz.log') 
+    ] if settings.DEBUG else []
 )
 
 # Create a logger instance
