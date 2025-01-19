@@ -8,7 +8,7 @@ from app.utils.helpers import timeout_wrapper
 from app.core.middleware import logger
 import asyncio
 
-@timeout_wrapper(10.0)
+@timeout_wrapper(15.0)
 async def get_video_size(url: str):
     """ Fetch video size from URL (HTTP HEAD request) """
     async with httpx.AsyncClient() as client:
@@ -23,7 +23,8 @@ async def get_video_size(url: str):
                 )
             
             logger.info(f"Get video size successfully, video_size: {file_size} ......")
-            return file_size
+            
+            return int(file_size)
         
         except httpx.ConnectTimeout as e:
             raise httpx.ConnectTimeout(f"Connection timed out while accessing the URL: {url}")
@@ -31,7 +32,7 @@ async def get_video_size(url: str):
         except Exception as e:      
             raise Exception(f"An unexpected error occurred: {str(e)}")
 
-@timeout_wrapper(15.0)
+@timeout_wrapper(30.0)
 async def get_video_info(url):
     try:
         ydl_opts = {
@@ -90,17 +91,17 @@ async def stream_response(url: str):
         "User-Agent": "PostmanRuntime/7.43.0",
         "Cache-Control": "no-cache",
     }
-    try: 
+    try:
         async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
-        # Stream the response from the external server
-            async with client.stream("GET", url, headers=headers) as response:         
-            # Yield data chunks one by one as they arrive
+            # Stream the response from the external server
+            async with client.stream("GET", url, headers=headers) as response:
+                # Yield data chunks one by one as they arrive
                 async for chunk in response.aiter_bytes():
                     yield chunk  # Yield each chunk of video data as it arrives
     except (httpx.ConnectTimeout, asyncio.TimeoutError) as e:
-        raise httpx.ConnectTimeout( f"Timeout while streaming video")
+        raise httpx.ConnectTimeout(f"Timeout while streaming video")
 
-@timeout_wrapper(10.0)
+@timeout_wrapper(15.0)
 async def verify_video_metadata(video_url):
     try:
         logger.info(f"Getting video metadata ......")
