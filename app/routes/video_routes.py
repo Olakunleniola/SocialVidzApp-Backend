@@ -8,6 +8,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field, HttpUrl
 from app.core.middleware import logger
 from app.core.config import settings
+import unicodedata
 
 router = APIRouter()
 
@@ -46,19 +47,15 @@ async def download_video(
     try:
         # Extract request data
         url = str(request.url)
-        title = request.title
+        title = unicodedata.normalize('NFKD', request.title).encode('ascii', 'ignore').decode('ascii')
         platform = request.platform
 
         # Validate the platform
         validate_platform(platform)
-        print("verfying")
         await verify_video_metadata(url)
-        print("verified")
-
+ 
         # Fetch video size
-        print("getting video size")
         file_size = await get_video_size(url)
-        print(f"Got video size {file_size}")
         
         if int(file_size) > settings.MAX_FILE_SIZE_MB * 1024 * 1024:
             raise HTTPException(
@@ -66,12 +63,9 @@ async def download_video(
                 detail=f"File size exceeds the limit of {settings.MAX_FILE_SIZE_MB} MB."
             )
         
-
-
         # Log the video download
         user_ip = client_request.client.host if client_request else "unknown"
-        print("Logging to database")
-        await log_video_download(db, title, platform, file_size, url, user_ip)
+        await log_video_download(db, title, platform, float(file_size), url, user_ip)
 
         # Set headers for the streaming response
         headers = {
@@ -81,10 +75,6 @@ async def download_video(
         }
 
         logger.info("Streaming video.....")
-        print("Streaming video.....")
-
-        # return {"message": "sucess"}
-
         # Stream the video file
         return StreamingResponse(stream_response(url), headers=headers)
     
