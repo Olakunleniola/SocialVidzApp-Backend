@@ -22,7 +22,7 @@ class Config:
     # App Settings 
     MAX_FILE_SIZE_MB = os.environ.get("MAX_FILE_SIZE_MB", 500)
     SUPPORTED_FORMATS = ["video/mp4", "video/webm", "video/ogg"] + os.environ.get("SUPPORTED_FORMATS", "").split()
-
+    PROXY_URL = os.getenv('PROXY_URL', None)
     # Logging settings
     
     LOG_LEVEL =  "INFO" if DEBUG else "ERROR"

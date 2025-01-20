@@ -32,16 +32,19 @@ async def get_video_size(url: str):
         except Exception as e:      
             raise Exception(f"An unexpected error occurred: {str(e)}")
 
-# @timeout_wrapper(30.0)
+@timeout_wrapper(60.0)
 async def get_video_info(url):
     try:
         ydl_opts = {
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'quiet': True,
             'retries': 1,
             'extract_flat': True,
             'noplaylist': True,
             'prefer_ffmpeg': False,
             'logger': None,  # Suppress all yt-dlp logs
+            'socket_timeout': 30,
+            'proxy': settings.PROXY_URL
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
@@ -51,18 +54,26 @@ async def get_video_info(url):
             if title == 'Unknown':
                 raise ExtractorError("Invalid or Malformed URk")
             return {
-                'title': info.get('title', 'Unknown'),
+                'title': title,
                 'url': url,
                 'platform': info.get('extractor', 'Unknown'),
                 'duration': info.get('duration', 'Unknown'),
                 'uploader': info.get('uploader', 'Unknown'),
-                'size': int(content_length)
+                'size': int(content_length),
+                'view_count': info.get('view_count', 0),
+                'like_count': info.get('like_count', 0),
+                'is_live': info.get('is_live', False),
             }
         
     except (DownloadError, ExtractorError) as e:
+        if "Sign in" in str(e):
+            raise HTTPException(
+                status_code=403,
+                detail="This video requires authentication. Please try another video."
+            )
         raise HTTPException(
-            status_code = 400, 
-            detail="The platform may not be supported or the URL may be invalid. Please re-check the URL and try again."
+            status_code=400,
+            detail="Unable to process the provided URL. Ensure the link is valid and from a supported platform."
         )
     
     except Exception as e:
@@ -102,7 +113,7 @@ async def stream_response(url: str):
         raise httpx.ConnectTimeout(f"Timeout while streaming video")
 
 @timeout_wrapper(30.0)
-async def verify_video_metadata(video_url):
+async def verify_video_metadata(video_url): 
     try:
         logger.info(f"Getting video metadata ......")
         async with httpx.AsyncClient(timeout=httpx.Timeout(10.0)) as client:
