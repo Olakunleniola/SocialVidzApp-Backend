@@ -8,7 +8,7 @@ from app.utils.helpers import timeout_wrapper
 from app.core.middleware import logger
 import asyncio
 
-@timeout_wrapper(15.0)
+@timeout_wrapper(30.0)
 async def get_video_size(url: str):
     """ Fetch video size from URL (HTTP HEAD request) """
     async with httpx.AsyncClient() as client:
@@ -32,7 +32,7 @@ async def get_video_size(url: str):
         except Exception as e:      
             raise Exception(f"An unexpected error occurred: {str(e)}")
 
-@timeout_wrapper(30.0)
+# @timeout_wrapper(30.0)
 async def get_video_info(url):
     try:
         ydl_opts = {
@@ -101,7 +101,7 @@ async def stream_response(url: str):
     except (httpx.ConnectTimeout, asyncio.TimeoutError) as e:
         raise httpx.ConnectTimeout(f"Timeout while streaming video")
 
-@timeout_wrapper(15.0)
+@timeout_wrapper(30.0)
 async def verify_video_metadata(video_url):
     try:
         logger.info(f"Getting video metadata ......")
