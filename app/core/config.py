@@ -4,7 +4,7 @@ class Config:
     # General settings
     APP_NAME = os.environ.get("APP_NAME", "Social Vidz")
     ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
-    DEBUG = bool(int(os.environ.get("DEBUG", 1)))
+    DEBUG = bool(int(os.environ.get("DEBUG", 0)))
     PORT = int(os.environ.get("PORT", 8000))
 
     # Database settings
@@ -12,7 +12,8 @@ class Config:
     DATABASE_ECHO = os.environ.get("DATABASE_ECHO", "false").lower() == "true"
 
     # CORS settings
-    ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "").split(",") if DEBUG else ["http://localhost:5173"]
+    print(DEBUG)
+    ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "").split(",") if not DEBUG else ["http://localhost:5173"]
 
     # API settings
     API_VERSION = os.environ.get("API_VERSION", "v1")
