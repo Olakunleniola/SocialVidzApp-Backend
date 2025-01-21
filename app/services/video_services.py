@@ -43,8 +43,9 @@ async def get_video_info(url):
             'noplaylist': True,
             'prefer_ffmpeg': False,
             'logger': None,  # Suppress all yt-dlp logs
-            'socket_timeout': 30,
-            'proxy': settings.PROXY_URL
+            'socket_timeout': 60,
+            'proxy': settings.PROXY_URL,
+            'cookiefile': settings.COOKIES_DATA
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
