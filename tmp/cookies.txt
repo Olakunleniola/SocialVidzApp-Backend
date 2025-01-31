@@ -1,0 +1,29 @@
+# Netscape HTTP Cookie File
+# This is a generated file!  Do not edit.
+
+.youtube.com    TRUE    /    TRUE    1707653602    APC    AfxxVi7J0R8_TV31m8ZmLeN1qldGJwKm6W6dg6pLTj_fqisGJfiByA
+.youtube.com    TRUE    /    TRUE    1707653602    CONSISTENCY    AKreu9uGUb3cB3T85QQz03sUG26JygsF6VLKGYFJYTuw4dKIkj0kwm_iOGXkfrboJKe1sdJBvAPA2QXUEnaNt5WGBABwWoX6E1zwa-lgGJQlALveI_e-gyKXal4
+.youtube.com    TRUE    /    TRUE    1707653808    GPS    1
+.youtube.com    TRUE    /    TRUE    1741626503    HSID    AYBOfUb85tOUUBJFH
+.google.com.ng    TRUE    /    TRUE    1741626503    HSID    AYBOfUb85tOUUBJFH
+.google.com    TRUE    /    TRUE    1741626502    HSID    AxL0QwZwe-XMxs5G9
+.youtube.com    TRUE    /    TRUE    1741626503    LOGIN_INFO    AFmmF2swRQIgAc1LgLVvlT68_zbRw8AemOPc8j4BxZ1HMPNH3eQ5gocCIQDGoWGlZnnnbA5QIiQe06emVyHwtdwqEsotuBIT51i5hA
+.google.com.ng    TRUE    /    TRUE    1741626503    NID    521=VGN6sYcQrDqASzwPR9oTgrJp_pnYzE6qJy9nMY-1_RJYlQq_CYv98pkNIKPZu4uhkrW7Cs1F2liN_c7WAWbNidCjv84HwMCAC4JfBbxILXWtIMgJ7ptlYMQaZ2Q3R8m5y4f7YLNFkyx51s53cdj7s4OnJsG8vA_Fmo62neO4JEXOGudrwjefYuFjPrUEOcXDGOjguj8
+.google.com    TRUE    /    TRUE    1741626502    NID    521=kWOxAYXrqzQuaJlZQZj3nwTgTUJYd8L7xWSTwYzvUER5Vag5E0b3Al0j_7QJplW8TvI1d6BUa5WOYgrMPNwkVOWwBYcLkM8o7k55NxzlYmLAKasyYONw6eumqX0My4ete9N90jXtKvd3145L1WYTIs8rYqfcgQoQ9aJCADqjfdNafiO6KCXymKLRngOQeD-QbG5XOy9-g3nLy_bvngMT2baLqjzlNhzCc-GJ0kSXNgmE4odmQFGXrB9OfxlTrNf_v1eqQaKpC0zo45qhTd49iFNC__-WfrSLBv9p4GC1q6j_NQ34j2z6LPP71BBpCOo4LYr39pEdk-tW-_APppUsqfIfSaiMkt-8GpAp_DaDaWurUmqwZdQTDuy1u1NHRKYlGXau0_G3hMyPxrPuifyzul0arRc5l8Tm1BICIeg98f3XE3GTcP578hGi5fMScxUrQoe9fVgabwcQHvhzb1KLU91cB9JpNZmOxSKMcWHIlVPC6qbtCAPom6Im0RhqZfoG_98z-RdljM3HxpaGijrj1r5dpGR4AW2MFJFFTFR4E5netWcLeK0bqcG9k5p7C7SZMVsp6J18we8DTUR7MY4B85Ur5_g8DJ4dLKXJugb1p4wOM6yQddbWXnKDNzb_Itrwn9nWc8Lxv3nZ83q5pRbUFnonENCKwQe3e6Z6
+.youtube.com    TRUE    /    TRUE    1741626802    PREF    f4=4000000&f6=40000000&tz=Africa.Lagos&f7=100
+.google.com    TRUE    /    TRUE    1741626502    SAPISID    2TyhDbJ_Etoh2UAB/Ad9jybfztANAZn9lg
+.google.com.ng    TRUE    /    TRUE    1741626503    SAPISID    2TyhDbJ_Etoh2UAB/Ad9jybfztANAZn9lg
+.youtube.com    TRUE    /    TRUE    1741626503    SAPISID    2TyhDbJ_Etoh2UAB/Ad9jybfztANAZn9lg
+.google.com.ng    TRUE    /    TRUE    1741626503    SID    g.a000tAj4ihhC0ip-lgPa-WZ23fG7Q_Cnj_ZwRzCfyXlUAKKeUoi53qCoIzPjMBYAVDkh-q5BCwACgYKAbQSARYSFQHGX2MiJk6TsIQegdDPjUwii2Jj1hoVAUF8yKoucaMUnigQpdbY3p0HFW8K0076
+.google.com    TRUE    /    TRUE    1741626502    SID    g.a000tAj4ihhC0ip-lgPa-WZ23fG7Q_Cnj_ZwRzCfyXlUAKKeUoi53qCoIzPjMBYAVDkh-q5BCwACgYKAbQSARYSFQHGX2MiJk6TsIQegdDPjUwii2Jj1hoVAUF8yKoucaMUnigQpdbY3p0HFW8K0076
+.youtube.com    TRUE    /    TRUE    1741626503    SID    g.a000tAj4ihhC0ip-lgPa-WZ23fG7Q_Cnj_ZwRzCfyXlUAKKeUoi53qCoIzPjMBYAVDkh-q5BCwACgYKAbQSARYSFQHGX2MiJk6TsIQegdDPjUwii2Jj1hoVAUF8yKoucaMUnigQpdbY3p0HFW8K0076
+.google.com    TRUE    /    TRUE    1741626502    SIDCC    AKEyXzWpgXRcbb2d8zihrcKScO2xU3z6DFiG0RcWPl-7NI8fGTX_lefXZlZsFH4oHVpSb7p6kg
+.youtube.com    TRUE    /    TRUE    1741626503    SIDCC    AKEyXzX8hZ0sRYT7hL19THBiMVoTZCgEXcR17MkUwYGBzIiG9MoPh4VW3IEv8eBb--E-dshj
+.google.com.ng    TRUE    /    TRUE    1741626503    SSID    AbJRWKxmVdTBEEVdI
+.google.com    TRUE    /    TRUE    1741626502    SSID    ArdAYHw8xQJcYswB0
+.youtube.com    TRUE    /    TRUE    1741626503    SSID    AbJRWKxmVdTBEEVdI
+.youtube.com    TRUE    /    TRUE    1741626503    VISITOR_INFO1_LIVE    q3K-GDtlxVs
+.youtube.com    TRUE    /    TRUE    1741626503    VISITOR_PRIVACY_METADATA    CgJORxIEGgAgTQ%3D%3D
+.youtube.com    TRUE    /    TRUE    Session    YSC    FXN5HlQV8DQ
+.doubleclick.net    TRUE    /    TRUE    1707653602    receive-cookie-deprecation    1
+.doubleclick.net    TRUE    /    TRUE    1707653688    test_cookie    CheckForPermission

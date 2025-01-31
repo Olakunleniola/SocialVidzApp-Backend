@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pip install requirements.txt
+pip install -r requirements.txt
 
-gunicorn -w -4 -k uvicorn.workers.UvicornWorker app.main:app
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker --timeout 120 --access-logfile - app.main:app

@@ -8,44 +8,51 @@ from app.utils.helpers import timeout_wrapper
 from app.core.middleware import logger
 import asyncio
 
-@timeout_wrapper(30.0)
+@timeout_wrapper(60.0)
 async def get_video_size(url: str):
-    """ Fetch video size from URL (HTTP HEAD request) """
+    """Fetch video size from URL (fallback to GET if HEAD fails)"""
     async with httpx.AsyncClient() as client:
-        logger.info(f"Getting video size ......")
+        logger.info(f"Getting video size for URL: {url[0-30]}")
         try:
+            # Try HEAD request first
             response = await client.head(url)
-            file_size = response.headers.get('Content-Length', 0)
-            if not file_size.isdigit() or int(file_size) <= 0:
-                raise HTTPException(
-                    status_code=400,
-                    detail="Unable to determine video file size: Invalid Url.. Copy the URL again and try again",
-                )
-            
-            logger.info(f"Get video size successfully, video_size: {file_size} ......")
-            
-            return int(file_size)
-        
+            file_size = response.headers.get('Content-Length')
+
+            # If Content-Length is present and valid, return it
+            if file_size and file_size.isdigit() and int(file_size) > 0:
+                logger.info(f"Video size determined successfully: {file_size} bytes")
+                return int(file_size)
+
+            # If Content-Length is missing or invalid, fall back to GET request
+            logger.warning("Content-Length header missing or invalid. Falling back to GET request.")
+            total_size = 0
+            async with client.stream("GET", url) as stream_response:
+                stream_response.raise_for_status()  # Ensure the response is successful
+                async for chunk in stream_response.aiter_bytes():
+                    total_size += len(chunk)
+
+            logger.info(f"Video size calculated manually: {total_size} bytes")
+            return total_size
+
         except httpx.ConnectTimeout as e:
             raise httpx.ConnectTimeout(f"Connection timed out while accessing the URL: {url}")
-       
-        except Exception as e:      
+
+        except Exception as e:
             raise Exception(f"An unexpected error occurred: {str(e)}")
 
 @timeout_wrapper(60.0)
-async def get_video_info(url):
+async def get_video_info(url, platform):
     try:
         ydl_opts = {
             'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'quiet': True,
             'retries': 1,
-            'extract_flat': True,
             'noplaylist': True,
             'prefer_ffmpeg': False,
             'logger': None,  # Suppress all yt-dlp logs
             'socket_timeout': 60,
             'proxy': settings.PROXY_URL,
-            'cookiefile': settings.COOKIES_DATA
+            'cookiefile': settings.COOKIES_PATH if platform=='youtube' else None
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)

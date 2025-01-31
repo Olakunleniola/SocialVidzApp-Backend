@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query, Depends, Request
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.dependencies import get_db
 from app.models.helpers import log_video_download
 from app.services.video_services import get_video_info, stream_response, get_video_size, verify_video_metadata
@@ -26,9 +26,9 @@ async def get_info(url: str = Query(...)):
 
         logger.info(f"Geting info of the URL {str(url)}")
         
-        validate_url(url)
+        platform = validate_url(url)
         
-        video_info = await get_video_info(url)
+        video_info = await get_video_info(url, platform)
         
         return {"status": "success", "data": video_info}
     
@@ -38,7 +38,7 @@ async def get_info(url: str = Query(...)):
 @router.post("/download")
 async def download_video(
     request: VideoRequest, 
-    db: Session = Depends(get_db), 
+    db: AsyncSession = Depends(get_db), 
     client_request: Request = None
 ):
     """
