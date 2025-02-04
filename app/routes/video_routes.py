@@ -41,9 +41,6 @@ async def download_video(
     db: AsyncSession = Depends(get_db), 
     client_request: Request = None
 ):
-    """
-    Download a video by providing the URL, platform, and title.
-    """
     try:
         # Extract request data
         url = str(request.url)
@@ -53,16 +50,16 @@ async def download_video(
         # Validate the platform
         validate_platform(platform)
         await verify_video_metadata(url)
- 
+
         # Fetch video size
         file_size = await get_video_size(url)
-        
+
         if int(file_size) > settings.MAX_FILE_SIZE_MB * 1024 * 1024:
             raise HTTPException(
                 status_code=413,
                 detail=f"File size exceeds the limit of {settings.MAX_FILE_SIZE_MB} MB."
             )
-        
+
         # Log the video download
         user_ip = client_request.client.host if client_request else "unknown"
         await log_video_download(db, title, platform, float(file_size), url, user_ip)
@@ -77,8 +74,7 @@ async def download_video(
         logger.info("Streaming video.....")
         # Stream the video file
         return StreamingResponse(stream_response(url), headers=headers)
-    
-    
+
     except Exception as e:
-        # logger.exception(f"Unexpected Error: {str(e)}")
-        raise e
+        logger.error(f"Unexpected error: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
