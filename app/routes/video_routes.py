@@ -38,7 +38,7 @@ async def get_info(url: str = Query(...)):
 @router.post("/download")
 async def download_video(
     request: VideoRequest, 
-    db: AsyncSession = Depends(get_db), 
+    db = Depends(get_db), 
     client_request: Request = None
 ):
     try:
@@ -62,6 +62,7 @@ async def download_video(
 
         # Log the video download
         user_ip = client_request.client.host if client_request else "unknown"
+        
         await log_video_download(db, title, platform, float(file_size), url, user_ip)
 
         # Set headers for the streaming response

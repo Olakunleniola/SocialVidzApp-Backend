@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Config:
     # General settings
@@ -8,10 +11,12 @@ class Config:
     ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
     DEBUG = bool(int(os.environ.get("DEBUG", 1)))
     PORT = int(os.environ.get("PORT", 8000))
-
+    MONGO_DB_NAME = os.environ.get("MONGO_DB_NAME", "")
+    print(DEBUG)
     # Database settings
     DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./social_vidz.db")
     DATABASE_ECHO = os.environ.get("DATABASE_ECHO", "false").lower() == "true"
+
     # CORS settings
     ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "").split(",") if not DEBUG else ["http://localhost:5173"]
 
